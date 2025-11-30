@@ -1,11 +1,11 @@
-module Utils.Regex
-  ( checkIfMatchT,
-    getFirstMatchT,
-    getAllMatchesT,
-    checkIfMatch,
-    getFirstMatch,
-    getAllMatches,
-  )
+module Utils.Regex (
+  checkIfMatchT,
+  getFirstMatchT,
+  getAllMatchesT,
+  checkIfMatch,
+  getFirstMatch,
+  getAllMatches,
+)
 where
 
 import Data.Text (Text)

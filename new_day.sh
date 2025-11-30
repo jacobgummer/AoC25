@@ -25,7 +25,6 @@ mkdir -p data/tests
 
 # Create DayNN.hs
 cat >"$FILENAME" <<EOF
-import Data.Function.Memoize
 import Data.Heap (Heap)
 import qualified Data.Heap as H
 import Data.IntMap.Lazy (IntMap)
@@ -59,11 +58,11 @@ main :: IO ()
 main = do
   args <- getArgs
   case args of
-    ["p1"]         -> runInput inputFile part1
-    ["p2"]         -> runInput inputFile part2
-    ["p1", "-t"]   -> runInput testFile part1
-    ["p2", "-t"]   -> runInput testFile part2
-    _              -> putStrLn $ "Usage: ./day <" ++ day ++ "> <p1|p2> [-t]"
+    ["p1"] -> runInput inputFile part1
+    ["p2"] -> runInput inputFile part2
+    ["p1", "-t"] -> runInput testFile part1
+    ["p2", "-t"] -> runInput testFile part2
+    _ -> putStrLn $ "Usage: ./day <" ++ day ++ "> <p1|p2> [-t]"
 
 -- TODO: Adjust this.
 type ProcessedInput = [[Int]]
@@ -106,7 +105,7 @@ executable ${DAYNAME}
     default-language: Haskell2010
     default-extensions: OverloadedStrings
     build-depends:    
-        base ^>=4.18.3.0
+        base
         , aoc25
         , text
         , vector
@@ -114,7 +113,6 @@ executable ${DAYNAME}
         , containers
         , mtl
         , regex-tdfa
-        , memoize
         , heaps
         , matrix
 EOF

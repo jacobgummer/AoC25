@@ -1,17 +1,17 @@
-module Utils.Grid.Map
-  ( Grid,
-    GridPos,
-    CharGrid,
-    gridify,
-    bounds,
-    cardinalNeighbors,
-    diagonalNeighbors,
-    allNeighbors,
-    inBounds,
-    inBounds00,
-    renderCharGrid,
-    gridifyFromText,
-  )
+module Utils.Grid.Map (
+  Grid,
+  GridPos,
+  CharGrid,
+  gridify,
+  bounds,
+  cardinalNeighbors,
+  diagonalNeighbors,
+  allNeighbors,
+  inBounds,
+  inBounds00,
+  renderCharGrid,
+  gridifyFromText,
+)
 where
 
 import qualified Data.Map as M
@@ -27,8 +27,8 @@ gridify :: [[a]] -> Grid a
 gridify rows =
   let positions =
         [ ((i, j), x)
-        | (i, row) <- zip [0 ..] rows,
-          (j, x) <- zip [0 ..] row
+        | (i, row) <- zip [0 ..] rows
+        , (j, x) <- zip [0 ..] row
         ]
    in M.fromList positions
 

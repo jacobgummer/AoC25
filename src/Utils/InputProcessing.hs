@@ -1,16 +1,16 @@
-module Utils.InputProcessing
-  ( readInputT,
-    readInputLinesT,
-    breakLineT,
-    parseIntT,
-    readIntsT,
-    readIntsByT,
-    readInputLines,
-    breakLine,
-    parseInt,
-    readInts,
-    readIntsBy,
-  )
+module Utils.InputProcessing (
+  readInputT,
+  readInputLinesT,
+  breakLineT,
+  parseIntT,
+  readIntsT,
+  readIntsByT,
+  readInputLines,
+  breakLine,
+  parseInt,
+  readInts,
+  readIntsBy,
+)
 where
 
 import Data.List.Split (split, splitOn)
