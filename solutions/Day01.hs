@@ -23,9 +23,6 @@ main = do
 -- TODO: Adjust this.
 type ProcessedInput = [String]
 
--- procesInputT :: [Text] -> ProcessedInput
--- procesInputT txts = undefined
-
 procesInput :: [String] -> ProcessedInput
 procesInput = id
 
