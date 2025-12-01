@@ -1,6 +1,4 @@
 import System.Environment (getArgs)
-import Utils.Grid.Matrix (CharGrid, Grid, GridPos, (!))
-import qualified Utils.Grid.Matrix as G
 import Utils.InputProcessing
 
 type Solver = ProcessedInput -> Int
