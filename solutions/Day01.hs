@@ -20,7 +20,6 @@ main = do
     ["p2", "-t"] -> runInput testFile part2
     _ -> putStrLn $ "Usage: ./day <" ++ day ++ "> <p1|p2> [-t]"
 
--- TODO: Adjust this.
 type ProcessedInput = [String]
 
 procesInput :: [String] -> ProcessedInput
