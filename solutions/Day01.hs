@@ -51,4 +51,24 @@ part1 = snd . foldl go (50, 0)
     go _ _ = error "didn't expect to end here"
 
 part2 :: Solver
-part2 input = length input
+part2 = snd . foldl go (50, 0)
+  where
+    go (num, acc) ('L' : sNum) =
+      let k = parseInt sNum
+          pZero = passedZeroL num k
+          num' = (num - k) `mod` 100
+       in (num', acc + pZero)
+    go (num, acc) ('R' : sNum) =
+      let k = parseInt sNum
+          pZero = passedZeroR num k
+          num' = (num + k) `mod` 100
+       in (num', acc + pZero)
+    go _ _ = error "didn't expect to end here"
+
+    passedZeroL start = passedZero $ if start == 0 then 100 else start
+
+    passedZeroR start = passedZero $ if start == 0 then 100 else 100 - start
+
+    passedZero start' k
+      | k < start' = 0
+      | otherwise = 1 + (k - start') `div` 100
