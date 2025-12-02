@@ -1,4 +1,5 @@
 import Data.Bifunctor (Bifunctor (second))
+import Data.List (isInfixOf)
 import Data.List.Split (splitOn)
 import System.Environment (getArgs)
 import Utils.InputProcessing (
@@ -56,5 +57,18 @@ checkRange1 (start, end) = sum invalids
 part1 :: Solver
 part1 = sum . map checkRange1
 
+checkRange2 :: (String, String) -> Int
+checkRange2 (start, end) = sum invalids
+  where
+    startInt = parseInt start
+    endInt = parseInt end
+
+    invalids =
+      map parseInt $
+        filter repeats $
+          map show [startInt .. endInt]
+
+    repeats s = s `isInfixOf` (init . drop 1 $ s ++ s)
+
 part2 :: Solver
-part2 input = length input
+part2 = sum . map checkRange2
