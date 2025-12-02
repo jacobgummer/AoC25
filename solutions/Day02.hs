@@ -14,7 +14,7 @@ day = "02"
 
 inputFile, testFile :: FilePath
 inputFile = "data/inputs/day" ++ day ++ ".txt"
-testFile  = "data/tests/day" ++ day ++ ".txt"
+testFile = "data/tests/day" ++ day ++ ".txt"
 
 main :: IO ()
 main = do
@@ -27,22 +27,34 @@ main = do
     _ -> putStrLn $ "Usage: ./day <" ++ day ++ "> <p1|p2> [-t]"
 
 -- TODO: Adjust this.
-type ProcessedInput = [[Int]]
+type ProcessedInput = [(String, String)]
 
--- procesInputT :: [Text] -> ProcessedInput
--- procesInputT txts = undefined
-
-procesInput :: [String] -> ProcessedInput
-procesInput strs = undefined
+procesInput :: String -> ProcessedInput
+procesInput = map (second (drop 1) . breakLine '-') . splitOn ","
 
 runInput :: FilePath -> Solver -> IO ()
 runInput file part = do
-  raw <- readInputLines file
+  (raw : _) <- readInputLines file
   let input = procesInput raw
   print $ part input
 
+checkRange1 :: (String, String) -> Int
+checkRange1 (start, end) = sum invalids
+  where
+    startInt = parseInt start
+    endInt = parseInt end
+
+    invalids =
+      map parseInt $
+        filter repeatsTwice $
+          map show [startInt .. endInt]
+
+    repeatsTwice s = repeatsTwice' s $ take (length s `div` 2) s
+
+    repeatsTwice' s s' = s == s' ++ s'
+
 part1 :: Solver
-part1 input = length input
+part1 = sum . map checkRange1
 
 part2 :: Solver
 part2 input = length input
