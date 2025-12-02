@@ -1,22 +1,11 @@
-import Data.Heap (Heap)
-import qualified Data.Heap as H
-import Data.IntMap.Lazy (IntMap)
-import qualified Data.IntMap.Lazy as IntMap
-import Data.IntSet (IntSet)
-import qualified Data.IntSet as IntSet
-import Data.Map (Map)
-import qualified Data.Map as M
-import Data.Matrix hiding ((!))
-import Data.Set (Set)
-import qualified Data.Set as S
-import Data.Text (Text)
-import qualified Data.Text as T
-import Data.Vector (Vector)
-import qualified Data.Vector as V
+import Data.Bifunctor (Bifunctor (second))
+import Data.List.Split (splitOn)
 import System.Environment (getArgs)
-import Utils.Grid.Matrix (GridPos, Grid, CharGrid, (!))
-import qualified Utils.Grid.Matrix as G
-import Utils.InputProcessing
+import Utils.InputProcessing (
+  breakLine,
+  parseInt,
+  readInputLines,
+ )
 
 type Solver = ProcessedInput -> Int
 
