@@ -57,8 +57,8 @@ maxJoltage2 bank = sum $ zipWith (\b p -> b * 10 ^ p) batteries powers
 
     findBatteries [] _ acc = reverse acc
     findBatteries [b] _ acc = reverse $ b : acc
-    findBatteries bank'@(b : bank'') skippedLeft acc
-      | skippedLeft == 0 = findBatteries bank'' 0 (b : acc)
+    findBatteries bank' skippedLeft acc
+      | skippedLeft == 0 = reverse acc ++ bank'
       | otherwise =
           let possibleBatteries = take skippedLeft bank'
               highest = maximum possibleBatteries
