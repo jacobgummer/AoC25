@@ -46,5 +46,32 @@ maxJoltage1 bank = 10 * maxLeft + maxRight
 part1 :: Solver
 part1 = sum . map maxJoltage1
 
+maxJoltage2 :: [Int] -> Int
+maxJoltage2 bank = sum $ zipWith (\b p -> b * 10 ^ p) batteries powers
+  where
+    k = 12
+
+    n = length bank
+    initSkippedLeft = n - k + 1
+    powers = reverse [0 .. k - 1] :: [Int]
+
+    findBatteries [] _ acc = reverse acc
+    findBatteries [b] _ acc = reverse $ b : acc
+    findBatteries bank'@(b : bank'') skippedLeft acc
+      | skippedLeft == 0 = findBatteries bank'' 0 (b : acc)
+      | otherwise =
+          let possibleBatteries = take skippedLeft bank'
+              highest = maximum possibleBatteries
+              idxHighest =
+                fromMaybe (error "idxHighest") $
+                  elemIndex highest possibleBatteries
+              skippedLeft' = skippedLeft - idxHighest
+           in findBatteries
+                (drop (idxHighest + 1) bank')
+                skippedLeft'
+                (highest : acc)
+
+    batteries = findBatteries bank initSkippedLeft []
+
 part2 :: Solver
-part2 input = length input
+part2 = sum . map maxJoltage2
