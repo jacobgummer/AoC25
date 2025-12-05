@@ -31,8 +31,10 @@ type ProcessedInput = ([(Int, Int)], [Int])
 procesInput :: [String] -> ProcessedInput
 procesInput strs = (ranges, ids)
   where
+    both f = bimap f f
+
     ranges' = takeWhile (not . null) strs
-    ranges = map (bimap parseInt (parseInt . drop 1) . breakLine '-') ranges'
+    ranges = map (both parseInt . breakLine '-') ranges'
 
     ids' = drop 1 $ dropWhile (not . null) strs
     ids = map parseInt ids'
