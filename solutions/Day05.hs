@@ -1,4 +1,5 @@
 import Data.Bifunctor (Bifunctor (bimap))
+import Data.List (sort)
 import System.Environment (getArgs)
 import Utils.InputProcessing (
   breakLine,
@@ -42,13 +43,26 @@ runInput file part = do
   let input = procesInput raw
   print $ part input
 
-isBetween :: Int -> (Int, Int) -> Bool
-isBetween x (i, j) = i <= x && x <= j
-
 part1 :: Solver
 part1 (ranges, ids) = length $ filter id areFresh
   where
+    isBetween x (i, j) = i <= x && x <= j
+
     areFresh = map (\i -> any (i `isBetween`) ranges) ids
 
 part2 :: Solver
-part2 input = length input
+part2 (ranges, _) = sum $ map rangeSpan $ findRanges rangesSorted []
+  where
+    rangesSorted = sort ranges
+
+    rangeSpan (i, j) = j - i + 1
+
+    overlaps (s1, e1) (s2, e2) = s1 <= e2 && s2 <= e1
+
+    findRanges [] acc = acc
+    findRanges (r : ranges') [] = findRanges ranges' [r]
+    findRanges (r@(_, e) : ranges') crs@(r'@(s', e') : crs') =
+      findRanges ranges' $
+        if overlaps r r'
+          then (s', max e e') : crs'
+          else r : crs
