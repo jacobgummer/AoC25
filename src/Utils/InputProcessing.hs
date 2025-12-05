@@ -79,7 +79,7 @@ breakLine delimiter s = case break (== delimiter) s of
             ++ "\" to be splitable by delimiter '"
             ++ [delimiter]
             ++ "' in splitLine"
-    | otherwise -> pair
+    | otherwise -> (left, drop 1 right)
 
 parseIntSafe :: String -> Either String Int
 parseIntSafe [] = Left "Empty string"
