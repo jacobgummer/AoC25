@@ -53,18 +53,15 @@ part1 (ranges, ids) = length $ filter id areFresh
     areFresh = map (\i -> any (i `isBetween`) ranges) ids
 
 part2 :: Solver
-part2 (ranges, _) = sum $ map rangeSpan $ findRanges rangesSorted []
+part2 = sum . map rangeSpan . findRanges . sort . fst
   where
-    rangesSorted = sort ranges
-
     rangeSpan (i, j) = j - i + 1
 
     overlaps (s1, e1) (s2, e2) = s1 <= e2 && s2 <= e1
 
-    findRanges [] acc = acc
-    findRanges (r : ranges') [] = findRanges ranges' [r]
-    findRanges (r@(_, e) : ranges') crs@(r'@(s', e') : crs') =
-      findRanges ranges' $
-        if overlaps r r'
-          then (s', max e e') : crs'
-          else r : crs
+    findRanges = foldl update []
+
+    update [] r = [r]
+    update crs@(r'@(s', e') : crs') r@(_, e)
+      | overlaps r r' = (s', max e e') : crs'
+      | otherwise = r : crs
