@@ -1,22 +1,11 @@
-import Data.Heap (Heap)
-import qualified Data.Heap as H
-import Data.IntMap.Lazy (IntMap)
-import qualified Data.IntMap.Lazy as IntMap
-import Data.IntSet (IntSet)
-import qualified Data.IntSet as IntSet
-import Data.Map (Map)
-import qualified Data.Map as M
-import Data.Matrix hiding ((!))
-import Data.Set (Set)
-import qualified Data.Set as S
-import Data.Text (Text)
-import qualified Data.Text as T
+import Data.Bifunctor (Bifunctor (first))
+import Data.Matrix (Matrix (nrows), getRow, transpose)
+import Data.Maybe (fromMaybe)
 import Data.Vector (Vector)
 import qualified Data.Vector as V
 import System.Environment (getArgs)
-import Utils.Grid.Matrix (CharGrid, Grid, GridPos, (!))
 import qualified Utils.Grid.Matrix as G
-import Utils.InputProcessing
+import Utils.InputProcessing (parseInt, readInputLines)
 
 type Solver = ProcessedInput -> Int
 
@@ -37,14 +26,10 @@ main = do
     ["p2", "-t"] -> runInput testFile part2
     _ -> putStrLn $ "Usage: ./day <" ++ day ++ "> <p1|p2> [-t]"
 
--- TODO: Adjust this.
-type ProcessedInput = [[Int]]
-
--- procesInputT :: [Text] -> ProcessedInput
--- procesInputT txts = undefined
+type ProcessedInput = G.Grid String
 
 procesInput :: [String] -> ProcessedInput
-procesInput strs = undefined
+procesInput = transpose . G.gridify . map words
 
 runInput :: FilePath -> Solver -> IO ()
 runInput file part = do
@@ -52,8 +37,21 @@ runInput file part = do
   let input = procesInput raw
   print $ part input
 
+operate :: String -> Vector Int -> Int
+operate "*" = V.product
+operate "+" = V.sum
+operate _ = error "unexpected operator"
+
 part1 :: Solver
-part1 input = length input
+part1 m = res
+  where
+    res = foldr checkRow 0 [1 .. nrows m]
+
+    checkRow i acc =
+      let row = getRow i m
+          (vecNums, op) =
+            first (V.map parseInt) $ fromMaybe undefined $ V.unsnoc row
+       in acc + operate op vecNums
 
 part2 :: Solver
-part2 input = length input
+part2 m = length m
