@@ -46,16 +46,15 @@ findSplitters grid pos =
       | S.null curr = visited
       | otherwise =
           let visited' = visited `S.union` curr
-              next =
-                S.fromList $
-                  concatMap (filter (G.inBounds grid) . step) $
-                    S.toList curr
+              next = S.fromList $ concatMap step $ S.toList curr
            in go next visited'
 
     step pos'@(i, j)
       | not $ G.inBounds grid pos' = []
       | grid ! pos' == '^' = [(i + 1, j - 1), (i + 1, j + 1)]
-      | otherwise = [(i + 1, j)]
+      | otherwise =
+          let pos'' = (i + 1, j)
+           in [(i + 1, j) | G.inBounds grid pos'']
 
 part1 :: Solver
 part1 grid = S.size $ findSplitters grid (0, start_j)
