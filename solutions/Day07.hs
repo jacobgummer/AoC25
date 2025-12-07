@@ -1,5 +1,6 @@
 import Data.Matrix hiding ((!))
 import Data.Maybe (fromMaybe)
+import Data.MemoTrie (memoFix)
 import Data.Set (Set)
 import qualified Data.Set as S
 import qualified Data.Vector as V
@@ -61,5 +62,15 @@ part1 grid = S.size $ findEncounteredSplitters grid (0, start_j)
   where
     start_j = fromMaybe undefined $ V.findIndex (== 'S') $ getRow 1 grid
 
+calcNumTimelines :: CharGrid -> GridPos -> Int
+calcNumTimelines grid = memoFix walk
+  where
+    walk f pos@(i, j)
+      | not $ G.inBounds grid pos = 1
+      | grid ! pos == '^' = f (i + 1, j - 1) + f (i + 1, j + 1)
+      | otherwise = f (i + 1, j)
+
 part2 :: Solver
-part2 grid = length grid
+part2 grid = calcNumTimelines grid (0, start_j)
+  where
+    start_j = fromMaybe undefined $ V.findIndex (== 'S') $ getRow 1 grid
