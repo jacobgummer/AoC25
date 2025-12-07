@@ -151,3 +151,4 @@ executable day07
         , regex-tdfa
         , heaps
         , matrix
+        , MemoTrie
