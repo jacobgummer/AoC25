@@ -152,3 +152,21 @@ executable day07
         , heaps
         , matrix
         , MemoTrie
+
+executable day08
+    import:           warnings
+    main-is:          Day08.hs
+    hs-source-dirs:   solutions
+    default-language: Haskell2010
+    default-extensions: OverloadedStrings
+    build-depends:    
+        base
+        , aoc25
+        , text
+        , vector
+        , split
+        , containers
+        , mtl
+        , regex-tdfa
+        , heaps
+        , matrix
