@@ -38,8 +38,8 @@ runInput file part = do
   let input = procesInput raw
   print $ part input
 
-findSplitters :: CharGrid -> GridPos -> Set GridPos
-findSplitters grid pos =
+findEncounteredSplitters :: CharGrid -> GridPos -> Set GridPos
+findEncounteredSplitters grid pos =
   S.filter (\p -> grid ! p == '^') $ go (S.singleton pos) S.empty
   where
     go curr visited
@@ -57,7 +57,7 @@ findSplitters grid pos =
            in [(i + 1, j) | G.inBounds grid pos'']
 
 part1 :: Solver
-part1 grid = S.size $ findSplitters grid (0, start_j)
+part1 grid = S.size $ findEncounteredSplitters grid (0, start_j)
   where
     start_j = fromMaybe undefined $ V.findIndex (== 'S') $ getRow 1 grid
 
