@@ -53,9 +53,7 @@ findEncounteredSplitters grid pos =
     step pos'@(i, j)
       | not $ G.inBounds grid pos' = []
       | grid ! pos' == '^' = [(i + 1, j - 1), (i + 1, j + 1)]
-      | otherwise =
-          let pos'' = (i + 1, j)
-           in [(i + 1, j) | G.inBounds grid pos'']
+      | otherwise = [(i + 1, j) | G.inBounds grid (i + 1, j)]
 
 part1 :: Solver
 part1 grid = S.size $ findEncounteredSplitters grid (0, start_j)
