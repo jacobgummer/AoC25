@@ -58,7 +58,11 @@ findEncounteredSplitters grid pos =
 part1 :: Solver
 part1 grid = S.size $ findEncounteredSplitters grid (0, start_j)
   where
-    start_j = fromMaybe undefined $ V.findIndex (== 'S') $ getRow 1 grid
+    start_j =
+      fromMaybe undefined $
+        V.findIndex (== 'S') $
+          getRow 1 $
+            G.gridMatrix grid
 
 calcNumTimelines :: CharGrid -> GridPos -> Int
 calcNumTimelines grid = memoFix walk
@@ -71,4 +75,8 @@ calcNumTimelines grid = memoFix walk
 part2 :: Solver
 part2 grid = calcNumTimelines grid (0, start_j)
   where
-    start_j = fromMaybe undefined $ V.findIndex (== 'S') $ getRow 1 grid
+    start_j =
+      fromMaybe undefined $
+        V.findIndex (== 'S') $
+          getRow 1 $
+            G.gridMatrix grid
