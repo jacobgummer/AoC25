@@ -17,6 +17,7 @@ library
     , Utils.Grid.Map
     , Utils.Grid.Matrix
     , Utils.Regex
+    , Data.UnionFind.ST
   default-language: Haskell2010
   build-depends: 
       base
